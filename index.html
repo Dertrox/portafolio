@@ -1,82 +1,93 @@
 <!DOCTYPE html>
-            <h3>Diseño de adquisición y transmisión de datos</h3>
-            <p>Integración de sensores, radiofrecuencia y monitoreo para proyectos experimentales.</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="date">FPGA</div>
-          <div>
-            <h3>Procesamiento y filtrado en hardware</h3>
-            <p>Implementación de lógica digital y visualización en PC para análisis de señales.</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="date">Unity</div>
-          <div>
-            <h3>Interfaces y prototipos interactivos</h3>
-            <p>Desarrollo de sistemas de juego, controles y UI para experiencias de estrategia y simulación.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>José Restrepo | Portafolio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <section class="section">
-      <h2>Capacidades técnicas</h2>
-      <div class="metrics">
-        <div class="metric">
-          <strong>4+</strong>
-          <span>áreas integradas: electrónica, RF, visualización y desarrollo interactivo.</span>
-        </div>
-        <div class="metric">
-          <strong>LoRa</strong>
-          <span>comunicación de largo alcance a 915 MHz para telemetría.</span>
-        </div>
-        <div class="metric">
-          <strong>FPGA</strong>
-          <span>enfoque en lógica digital y procesamiento especializado.</span>
-        </div>
-        <div class="metric">
-          <strong>UI</strong>
-          <span>interfaces claras para datos técnicos y control de sistemas.</span>
-        </div>
-      </div>
-    </section>
-
-    <section id="contacto" class="section">
-      <h2>Contacto</h2>
-      <p class="intro">
-        Aquí conviene poner solo los canales que realmente usas. Si agregas redes, deja únicamente las que estén activas y revisadas.
-      </p>
-      <div class="contact">
-        <article class="section-card">
-          <h3>Correo</h3>
-          <p><a class="highlight" href="mailto:jose.restrepowork@gmail.com">jose.restrepowork@gmail.com</a></p>
-          <p class="small-note">Úsalo para colaboración técnica, revisión de proyectos o contacto profesional.</p>
-        </article>
-        <article class="section-card">
-          <h3>GitHub</h3>
-          <p><a class="highlight" href="https://github.com/Dertrox" target="_blank" rel="noreferrer">github.com/Dertrox</a></p>
-          <p class="small-note">Ideal para repositorios públicos, versiones limpias y evidencia de trabajo.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-card">
-        <h3>Espacios que puedes completar después</h3>
-        <div class="pill-row">
-          <span class="pill">Agregar foto del cohete</span>
-          <span class="pill">Agregar captura de FPGA</span>
-          <span class="pill">Agregar video de Unity</span>
-          <span class="pill">Agregar diagrama LoRa</span>
-          <span class="pill">Agregar resultados medidos</span>
-        </div>
-      </div>
-    </section>
-
-    <div class="footer">
-      Portafolio técnico · HTML + CSS + JavaScript puro · Compatible con despliegue estático.
-    </div>
+<header>
+  <div class="container header-content">
+    <h1>José Restrepo</h1>
+    <nav>
+      <a href="#perfil">Perfil</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#experiencia">Experiencia</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
   </div>
+</header>
+
+<main class="container">
+
+<section id="perfil">
+  <h2>Perfil</h2>
+  <p>
+    Desarrollo sistemas que integran electrónica, software y visualización.
+    Trabajo con telemetría, comunicación inalámbrica, FPGA y prototipos interactivos.
+  </p>
+</section>
+
+<section id="proyectos">
+  <h2>Proyectos</h2>
+
+  <div class="grid">
+
+    <div class="card">
+      <img src="assets/cohete.jpg" alt="Cohete">
+      <h3>Cohete con telemetría</h3>
+      <p>ESP32 + LoRa + sensores + GPS para monitoreo en tiempo real.</p>
+    </div>
+
+    <div class="card">
+      <img src="assets/fpga.png" alt="FPGA">
+      <h3>Procesamiento en FPGA</h3>
+      <p>Filtrado de señales y visualización en interfaz Python.</p>
+    </div>
+
+    <div class="card">
+      <img src="assets/unity.png" alt="Unity">
+      <h3>Desarrollo en Unity</h3>
+      <p>Sistemas de juego y UI interactiva.</p>
+    </div>
+
+  </div>
+</section>
+
+<section id="experiencia">
+  <h2>Áreas de trabajo</h2>
+
+  <div class="card">
+    <h3>Telemetría</h3>
+    <p>Integración de sensores, RF y monitoreo.</p>
+  </div>
+
+  <div class="card">
+    <h3>FPGA</h3>
+    <p>Procesamiento digital y filtrado de señales.</p>
+  </div>
+
+  <div class="card">
+    <h3>Unity</h3>
+    <p>Interfaces y prototipos interactivos.</p>
+  </div>
+
+</section>
+
+<section id="contacto">
+  <h2>Contacto</h2>
+
+  <div class="card">
+    <p>Email: <a href="mailto:jose.restrepowork@gmail.com">jose.restrepowork@gmail.com</a></p>
+    <p>GitHub: <a href="https://github.com/Dertrox">github.com/Dertrox</a></p>
+  </div>
+
+</section>
+
+</main>
+
+<script src="app.js"></script>
+
 </body>
 </html>
