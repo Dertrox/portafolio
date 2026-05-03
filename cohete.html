@@ -1,79 +1,206 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cohete experimental | José Restrepo</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Telemetría para Cohetes | José Restrepo</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="index.html">
-        <span class="brand-mark"></span>
-        <span>José Restrepo</span>
-      </a>
-      <nav class="nav">
-        <a href="perfil.html">Perfil</a>
-        <a href="proyectos.html" class="active">Proyectos</a>
-        <a href="index.html#contacto">Contacto</a>
-      </nav>
+
+<header class="header">
+  <div class="container nav">
+    <h1>Proyecto Cohete</h1>
+    <div>
+      <a href="index.html">Inicio</a>
+      <a href="proyectos.html">Proyectos</a>
     </div>
-  </header>
+  </div>
+</header>
 
-  <main class="container section page-content">
-    <p class="eyebrow">Proyecto</p>
-    <h1>Cohete experimental con telemetría.</h1>
+<main class="container">
 
-    <div class="hero-project">
-      <img src="assets/cohete.jpg" alt="Imagen del proyecto de cohete" />
-      <div class="hero-project-copy">
-        <p>
-          Este proyecto reúne adquisición de datos, sensores, comunicación inalámbrica y monitoreo para pruebas experimentales.
-        </p>
-        <div class="chips">
-          <span class="chip">ESP32</span>
-          <span class="chip">LoRa 915 MHz</span>
-          <span class="chip">GPS</span>
-          <span class="chip">Sensores</span>
-        </div>
-      </div>
-    </div>
+<!-- INTRO -->
+<section class="section">
+  <h1>Sistema de Telemetría para Cohetes Experimentales</h1>
 
-    <div class="grid cards-2 spaced-top">
-      <article class="card">
-        <h2>Objetivo</h2>
-        <p>
-          Registrar y transmitir datos críticos del vehículo para evaluar el comportamiento durante pruebas.
-        </p>
-      </article>
+  <p>
+    Desarrollo de un sistema electrónico para adquisición, almacenamiento y transmisión
+    de datos en tiempo real durante pruebas de vuelo de cohetes experimentales.
+  </p>
 
-      <article class="card">
-        <h2>Arquitectura</h2>
-        <p>
-          Sistema de adquisición en el cohete, enlace inalámbrico y visualización de datos en estación de tierra.
-        </p>
-      </article>
-    </div>
+  <div class="tags">
+    <span>ESP32</span>
+    <span>LoRa</span>
+    <span>KiCad</span>
+    <span>SPI</span>
+    <span>I2C</span>
+    <span>UART</span>
+  </div>
+</section>
 
-    <div class="card spaced-top">
-      <h2>Detalles técnicos</h2>
-      <p>
-        Aquí puedes explayarte con la historia completa: qué sensores usaste, cómo montaste el sistema, qué problemas aparecieron,
-        cómo resolviste la alimentación, el enlace RF, la calibración y la validación en campo.
-      </p>
-      <p class="small-note">
-        <!-- Agrega aquí fotos, esquemas, capturas de datos, tablas, resultados de pruebas y versiones del sistema -->
-      </p>
-    </div>
-  </main>
+<!-- OBJETIVO -->
+<section class="section">
+  <h2>Objetivo</h2>
+  <p>
+    Diseñar un sistema capaz de capturar múltiples variables físicas, almacenarlas localmente
+    y transmitirlas en tiempo real, garantizando estabilidad eléctrica y confiabilidad en condiciones reales.
+  </p>
+</section>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p><a href="proyectos.html">Volver a proyectos</a></p>
-    </div>
-  </footer>
+<!-- ARQUITECTURA -->
+<section class="section">
+  <h2>Arquitectura del sistema</h2>
 
-  <script src="app.js"></script>
+  <div class="card">
+    <p>
+      El sistema está compuesto por:
+    </p>
+
+    <ul>
+      <li>Microcontrolador principal (ESP32)</li>
+      <li>Sensores conectados vía I2C</li>
+      <li>Memoria microSD (SPI)</li>
+      <li>Módulo LoRa para transmisión</li>
+      <li>Regulación de voltaje (5V / 3.3V)</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PROTOTIPO 1 -->
+<section class="section">
+  <h2>Prototipo 1</h2>
+
+  <div class="card">
+    <p>
+      Se implementó un diseño inicial con reguladores lineales (LM7805 y LM117)
+      y comunicación mediante buses SPI, I2C y UART.
+    </p>
+
+    <p>
+      Este prototipo permitió validar:
+    </p>
+
+    <ul>
+      <li>Lectura simultánea de sensores</li>
+      <li>Transmisión LoRa</li>
+      <li>Registro en microSD</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Problemas detectados</h3>
+
+    <ul>
+      <li>Baja calidad de ruteo en capa inferior</li>
+      <li>Fallas en comunicación SPI con microSD</li>
+      <li>Fragilidad mecánica</li>
+    </ul>
+
+    <p>
+      Estas limitaciones comprometían la confiabilidad del sistema, especialmente en el almacenamiento de datos.
+    </p>
+  </div>
+</section>
+
+<!-- PROTOTIPO 2 -->
+<section class="section">
+  <h2>Prototipo 2 – Rediseño estructural</h2>
+
+  <div class="card">
+    <p>
+      Se rediseñó el sistema separando la electrónica en dos placas:
+    </p>
+
+    <ul>
+      <li><strong>Placa A:</strong> Sensores y adquisición</li>
+      <li><strong>Placa B:</strong> Control y potencia</li>
+    </ul>
+
+    <p>
+      Esta arquitectura permitió:
+    </p>
+
+    <ul>
+      <li>Mejor organización de buses (I2C, SPI, UART)</li>
+      <li>Reducción de interferencias</li>
+      <li>Mayor estabilidad eléctrica</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Mejoras implementadas</h3>
+
+    <ul>
+      <li>Desacoplos adicionales en alimentación</li>
+      <li>Distribución más clara de señales</li>
+      <li>Mayor robustez estructural</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PROBLEMA CRITICO -->
+<section class="section">
+  <h2>Problema crítico: disipación térmica</h2>
+
+  <div class="card">
+    <p>
+      Durante pruebas prolongadas, los reguladores lineales presentaron sobrecalentamiento,
+      especialmente durante:
+    </p>
+
+    <ul>
+      <li>Transmisión LoRa</li>
+      <li>Escritura en microSD</li>
+    </ul>
+
+    <p>
+      La disipación de potencia excedía la capacidad térmica del encapsulado,
+      provocando apagados del sistema.
+    </p>
+  </div>
+</section>
+
+<!-- SOLUCION -->
+<section class="section">
+  <h2>Solución implementada</h2>
+
+  <div class="card">
+    <p>
+      Se reemplazó la regulación lineal por un convertidor DC-DC basado en LM2596.
+    </p>
+
+    <ul>
+      <li>Mayor eficiencia energética</li>
+      <li>Reducción de temperatura</li>
+      <li>Mayor estabilidad del sistema</li>
+    </ul>
+  </div>
+</section>
+
+<!-- RESULTADO -->
+<section class="section">
+  <h2>Resultado</h2>
+
+  <div class="card">
+    <p>
+      El sistema final logró una operación más estable, con mejor distribución de energía
+      y mayor confiabilidad en la adquisición y transmisión de datos.
+    </p>
+  </div>
+</section>
+
+<!-- MEDIA -->
+<section class="section">
+  <h2>Evidencia</h2>
+
+  <div class="grid-3">
+    <div class="card">📷 Imagen prototipo 1</div>
+    <div class="card">📷 Imagen prototipo 2</div>
+    <div class="card">📷 Esquemáticos KiCad</div>
+  </div>
+</section>
+
+</main>
+
 </body>
 </html>
