@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrowSense | Sistema IoT de monitoreo y riego inteligente</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0d1117;
+  color: #e6edf3;
+}
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: auto;
+}
+
+header {
+  border-bottom: 1px solid #30363d;
+  padding: 20px 0;
+}
+
+nav a {
+  color: #8b949e;
+  margin-right: 15px;
+  text-decoration: none;
+}
+
+h1, h2, h3 {
+  color: #e6edf3;
+}
+
+.section {
+  margin-top: 40px;
+}
+
+.card {
+  background: #161b22;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #30363d;
+}
+
+.grid {
+  display: grid;
+  gap: 20px;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+figcaption {
+  font-size: 13px;
+  color: #8b949e;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="container">
+<h2>José Restrepo</h2>
+<nav>
+<a href="index.html">Inicio</a>
+<a href="proyectos.html">Proyectos</a>
+</nav>
+</div>
+</header>
+
+<main class="container">
+
+<section class="section">
+<h1>GrowSense — Sistema IoT de monitoreo y riego inteligente</h1>
+
+<p>
+GrowSense es un sistema IoT diseñado para el monitoreo y control automatizado de plantas mediante sensores, comunicación inalámbrica y visualización de datos en tiempo real. 
+Este proyecto no se limita a medir humedad del suelo, sino que plantea una solución completa donde hardware, firmware y software trabajan en conjunto para tomar decisiones sobre el riego, registrar información histórica y permitir supervisión remota.
+</p>
+
+<p>
+El enfoque del desarrollo fue construir una plataforma funcional y escalable, capaz de adaptarse a distintos entornos, desde uso doméstico hasta aplicaciones más técnicas. 
+Para ello se integraron sensores ambientales, controladores electrónicos, lógica de decisión y un dashboard que permite interpretar el comportamiento de la planta a lo largo del tiempo.
+</p>
+</section>
+
+---
+
+<section class="section">
+<h2>Arquitectura del sistema</h2>
+
+<div class="grid grid-2">
+
+<div class="card">
+<h3>Nodo IoT (dispositivo físico)</h3>
+<p>
+El nodo IoT es el componente encargado de interactuar directamente con el entorno físico. 
+Aquí se integran sensores de humedad del suelo, temperatura y posiblemente luz ambiental, los cuales permiten capturar el estado real de la planta en cada momento.
+</p>
+
+<p>
+Este nodo también incorpora el sistema de riego automático, generalmente controlado mediante un relé o transistor que activa una bomba de agua. 
+La lógica implementada permite que el sistema tome decisiones autónomas, evitando tanto el riego excesivo como la sequedad del sustrato.
+</p>
+</div>
+
+<div class="card">
+<h3>Comunicación y visualización</h3>
+<p>
+Los datos capturados se transmiten hacia un sistema de visualización, donde pueden ser analizados en tiempo real. 
+Dependiendo de la implementación, esto puede hacerse mediante WiFi utilizando un ESP32 o mediante protocolos IoT como MQTT.
+</p>
+
+<p>
+El objetivo no es solo mostrar datos, sino generar una interfaz que permita entender el comportamiento de la planta, detectar patrones y optimizar el riego de forma informada.
+</p>
+</div>
+
+</div>
+</section>
+
+---
+
+<section class="section">
+<h2>Sensores y adquisición de datos</h2>
+
+<div class="grid grid-2">
+
+<div class="card">
+<h3>Sensor de humedad del suelo</h3>
+<p>
+Este sensor es la base del sistema, ya que permite determinar cuándo la planta necesita agua. 
+A través de la medición de la conductividad o capacitancia del suelo, se obtiene un valor que representa el nivel de humedad disponible para la planta.
+</p>
+
+<p>
+La correcta interpretación de esta señal es fundamental, ya que una lectura incorrecta puede provocar riegos innecesarios o insuficientes. 
+Por ello, el sistema incluye lógica de calibración y umbrales definidos según el tipo de planta.
+</p>
+</div>
+
+<div class="card">
+<h3>Temperatura y ambiente</h3>
+<p>
+Además de la humedad del suelo, se pueden integrar sensores de temperatura y humedad ambiental. 
+Estos datos permiten comprender mejor el entorno en el que se encuentra la planta, lo cual influye directamente en su consumo de agua.
+</p>
+
+<p>
+Por ejemplo, temperaturas altas pueden acelerar la evaporación, lo que implica ajustar la frecuencia de riego. 
+Este tipo de análisis convierte el sistema en una solución más inteligente y adaptable.
+</p>
+</div>
+
+</div>
+
+<div class="gallery">
+<figure>
+<img src="assets/iot_humedad.jpg">
+<figcaption>Sensor de humedad del suelo en operación.</figcaption>
+</figure>
+
+<figure>
+<img src="assets/iot_temp.jpg">
+<figcaption>Sensor ambiental utilizado en el sistema.</figcaption>
+</figure>
+</div>
+
+</section>
+
+---
+
+<section class="section">
+<h2>Sistema de riego automático</h2>
+
+<div class="card">
+<p>
+El sistema de riego automático es el componente encargado de actuar sobre el entorno físico. 
+A partir de los datos obtenidos por los sensores, el sistema decide cuándo activar la bomba de agua para mantener condiciones óptimas en el suelo.
+</p>
+
+<p>
+La implementación considera aspectos importantes como el tiempo de activación, la cantidad de agua suministrada y la prevención de riegos repetitivos en intervalos muy cortos. 
+Esto garantiza que la planta reciba el agua necesaria sin generar desperdicio o saturación.
+</p>
+
+<p>
+Además, el sistema puede incluir protecciones eléctricas y lógicas para evitar daños en la bomba o en la fuente de alimentación, lo que refuerza la confiabilidad del proyecto.
+</p>
+</div>
+
+<div class="gallery">
+<figure>
+<img src="assets/iot_bomba.jpg">
+<figcaption>Bomba de agua controlada electrónicamente.</figcaption>
+</figure>
+
+<figure>
+<img src="assets/iot_riego.jpg">
+<figcaption>Prueba del sistema de riego automático.</figcaption>
+</figure>
+</div>
+
+</section>
+
+---
+
+<section class="section">
+<h2>Dashboard y software</h2>
+
+<div class="card">
+<p>
+El sistema incluye un dashboard que permite visualizar los datos en tiempo real y analizar el comportamiento de la planta. 
+Esta interfaz muestra variables como humedad del suelo, temperatura y estado del sistema de riego.
+</p>
+
+<p>
+El desarrollo del dashboard se realizó utilizando tecnologías web y Python, permitiendo una representación clara y comprensible de la información. 
+Además, se implementa almacenamiento de datos para generar historiales que faciliten el análisis a largo plazo.
+</p>
+
+<p>
+Este componente es clave porque transforma datos en información útil, permitiendo al usuario tomar decisiones o validar el funcionamiento del sistema.
+</p>
+</div>
+
+<div class="gallery">
+<figure>
+<img src="assets/iot_dashboard.png">
+<figcaption>Dashboard de monitoreo en tiempo real.</figcaption>
+</figure>
+</div>
+
+</section>
+
+---
+
+<section class="section">
+<h2>Resultados y valor del proyecto</h2>
+
+<div class="grid grid-2">
+
+<div class="card">
+<p>
+GrowSense demuestra la integración efectiva entre electrónica, programación y sistemas IoT. 
+El proyecto no solo funciona como una solución práctica, sino como una plataforma de aprendizaje y desarrollo en múltiples áreas.
+</p>
+
+<p>
+Se logró un sistema capaz de monitorear condiciones en tiempo real, tomar decisiones automáticas y registrar información para análisis posterior.
+</p>
+</div>
+
+<div class="card">
+<p>
+Desde el punto de vista profesional, este proyecto evidencia habilidades en diseño de sistemas embebidos, integración de sensores, desarrollo de software y visualización de datos. 
+Además, muestra la capacidad de llevar una idea desde el concepto hasta una implementación funcional.
+</p>
+
+<p>
+Este tipo de proyectos es especialmente relevante en áreas como IoT, automatización y desarrollo de sistemas inteligentes.
+</p>
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+</body>
+</html>
