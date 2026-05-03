@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cohete experimental | José Restrepo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark"></span>
+        <span>José Restrepo</span>
+      </a>
+      <nav class="nav">
+        <a href="perfil.html">Perfil</a>
+        <a href="proyectos.html" class="active">Proyectos</a>
+        <a href="index.html#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container section page-content">
+    <p class="eyebrow">Proyecto</p>
+    <h1>Cohete experimental con telemetría.</h1>
+
+    <div class="hero-project">
+      <img src="assets/cohete.jpg" alt="Imagen del proyecto de cohete" />
+      <div class="hero-project-copy">
+        <p>
+          Este proyecto reúne adquisición de datos, sensores, comunicación inalámbrica y monitoreo para pruebas experimentales.
+        </p>
+        <div class="chips">
+          <span class="chip">ESP32</span>
+          <span class="chip">LoRa 915 MHz</span>
+          <span class="chip">GPS</span>
+          <span class="chip">Sensores</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid cards-2 spaced-top">
+      <article class="card">
+        <h2>Objetivo</h2>
+        <p>
+          Registrar y transmitir datos críticos del vehículo para evaluar el comportamiento durante pruebas.
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Arquitectura</h2>
+        <p>
+          Sistema de adquisición en el cohete, enlace inalámbrico y visualización de datos en estación de tierra.
+        </p>
+      </article>
+    </div>
+
+    <div class="card spaced-top">
+      <h2>Detalles técnicos</h2>
+      <p>
+        Aquí puedes explayarte con la historia completa: qué sensores usaste, cómo montaste el sistema, qué problemas aparecieron,
+        cómo resolviste la alimentación, el enlace RF, la calibración y la validación en campo.
+      </p>
+      <p class="small-note">
+        <!-- Agrega aquí fotos, esquemas, capturas de datos, tablas, resultados de pruebas y versiones del sistema -->
+      </p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p><a href="proyectos.html">Volver a proyectos</a></p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
