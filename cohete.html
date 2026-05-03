@@ -24,8 +24,8 @@
   <h1>Sistema de Telemetría para Cohetes Experimentales</h1>
 
   <p>
-    Desarrollo de un sistema electrónico para adquisición, almacenamiento y transmisión
-    de datos en tiempo real durante pruebas de vuelo de cohetes experimentales.
+    Sistema electrónico diseñado para la adquisición, almacenamiento y transmisión
+    de datos en tiempo real durante pruebas de vuelo en cohetes experimentales.
   </p>
 
   <div class="tags">
@@ -35,16 +35,8 @@
     <span>SPI</span>
     <span>I2C</span>
     <span>UART</span>
+    <span>DC-DC</span>
   </div>
-</section>
-
-<!-- OBJETIVO -->
-<section class="section">
-  <h2>Objetivo</h2>
-  <p>
-    Diseñar un sistema capaz de capturar múltiples variables físicas, almacenarlas localmente
-    y transmitirlas en tiempo real, garantizando estabilidad eléctrica y confiabilidad en condiciones reales.
-  </p>
 </section>
 
 <!-- ARQUITECTURA -->
@@ -52,127 +44,67 @@
   <h2>Arquitectura del sistema</h2>
 
   <div class="card">
-    <p>
-      El sistema está compuesto por:
-    </p>
-
     <ul>
-      <li>Microcontrolador principal (ESP32)</li>
-      <li>Sensores conectados vía I2C</li>
-      <li>Memoria microSD (SPI)</li>
-      <li>Módulo LoRa para transmisión</li>
-      <li>Regulación de voltaje (5V / 3.3V)</li>
-    </ul>
-  </div>
-</section>
-
-<!-- PROTOTIPO 1 -->
-<section class="section">
-  <h2>Prototipo 1</h2>
-
-  <div class="card">
-    <p>
-      Se implementó un diseño inicial con reguladores lineales (LM7805 y LM117)
-      y comunicación mediante buses SPI, I2C y UART.
-    </p>
-
-    <p>
-      Este prototipo permitió validar:
-    </p>
-
-    <ul>
-      <li>Lectura simultánea de sensores</li>
-      <li>Transmisión LoRa</li>
-      <li>Registro en microSD</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h3>Problemas detectados</h3>
-
-    <ul>
-      <li>Baja calidad de ruteo en capa inferior</li>
-      <li>Fallas en comunicación SPI con microSD</li>
-      <li>Fragilidad mecánica</li>
+      <li><strong>Placa A:</strong> Sensores y adquisición de datos</li>
+      <li><strong>Placa B:</strong> Control, procesamiento y potencia</li>
     </ul>
 
     <p>
-      Estas limitaciones comprometían la confiabilidad del sistema, especialmente en el almacenamiento de datos.
+      La separación del sistema en dos módulos permitió mejorar la organización de señales,
+      reducir interferencias y aumentar la estabilidad general del sistema.
     </p>
   </div>
 </section>
 
-<!-- PROTOTIPO 2 -->
+<!-- FUNCIONAMIENTO -->
 <section class="section">
-  <h2>Prototipo 2 – Rediseño estructural</h2>
+  <h2>Funcionamiento</h2>
 
   <div class="card">
-    <p>
-      Se rediseñó el sistema separando la electrónica en dos placas:
-    </p>
-
     <ul>
-      <li><strong>Placa A:</strong> Sensores y adquisición</li>
-      <li><strong>Placa B:</strong> Control y potencia</li>
-    </ul>
-
-    <p>
-      Esta arquitectura permitió:
-    </p>
-
-    <ul>
-      <li>Mejor organización de buses (I2C, SPI, UART)</li>
-      <li>Reducción de interferencias</li>
-      <li>Mayor estabilidad eléctrica</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h3>Mejoras implementadas</h3>
-
-    <ul>
-      <li>Desacoplos adicionales en alimentación</li>
-      <li>Distribución más clara de señales</li>
-      <li>Mayor robustez estructural</li>
+      <li>Lectura simultánea de sensores mediante bus I2C</li>
+      <li>Registro de datos en memoria microSD mediante SPI</li>
+      <li>Transmisión inalámbrica en tiempo real mediante LoRa</li>
+      <li>Comunicación interna usando UART para control y depuración</li>
     </ul>
   </div>
 </section>
 
-<!-- PROBLEMA CRITICO -->
+<!-- DISEÑO ELECTRONICO -->
 <section class="section">
-  <h2>Problema crítico: disipación térmica</h2>
+  <h2>Diseño electrónico</h2>
 
   <div class="card">
     <p>
-      Durante pruebas prolongadas, los reguladores lineales presentaron sobrecalentamiento,
-      especialmente durante:
-    </p>
-
-    <ul>
-      <li>Transmisión LoRa</li>
-      <li>Escritura en microSD</li>
-    </ul>
-
-    <p>
-      La disipación de potencia excedía la capacidad térmica del encapsulado,
-      provocando apagados del sistema.
+      El sistema fue diseñado en KiCad, implementando una arquitectura modular que separa
+      adquisición y control. Se aplicaron técnicas de desacoplo en líneas de alimentación
+      y organización de buses para garantizar integridad de señal.
     </p>
   </div>
 </section>
 
-<!-- SOLUCION -->
+<!-- POTENCIA -->
 <section class="section">
-  <h2>Solución implementada</h2>
+  <h2>Gestión de energía</h2>
 
   <div class="card">
     <p>
-      Se reemplazó la regulación lineal por un convertidor DC-DC basado en LM2596.
+      Se implementó un sistema de regulación basado en convertidores DC-DC (LM2596),
+      mejorando la eficiencia energética y reduciendo problemas térmicos en condiciones de carga.
     </p>
+  </div>
+</section>
 
+<!-- DECISIONES CLAVE -->
+<section class="section">
+  <h2>Decisiones de diseño</h2>
+
+  <div class="card">
     <ul>
-      <li>Mayor eficiencia energética</li>
-      <li>Reducción de temperatura</li>
-      <li>Mayor estabilidad del sistema</li>
+      <li>Separación física de módulos para reducir interferencias</li>
+      <li>Uso de buses estándar (I2C, SPI, UART) para escalabilidad</li>
+      <li>Implementación de regulación conmutada para eficiencia energética</li>
+      <li>Arquitectura preparada para futuras expansiones del sistema</li>
     </ul>
   </div>
 </section>
@@ -183,8 +115,8 @@
 
   <div class="card">
     <p>
-      El sistema final logró una operación más estable, con mejor distribución de energía
-      y mayor confiabilidad en la adquisición y transmisión de datos.
+      El sistema final permite la adquisición confiable de datos, su almacenamiento local
+      y transmisión en tiempo real, proporcionando una plataforma estable para pruebas experimentales.
     </p>
   </div>
 </section>
@@ -194,8 +126,8 @@
   <h2>Evidencia</h2>
 
   <div class="grid-3">
-    <div class="card">📷 Imagen prototipo 1</div>
-    <div class="card">📷 Imagen prototipo 2</div>
+    <div class="card">📷 Placa A (sensores)</div>
+    <div class="card">📷 Placa B (control)</div>
     <div class="card">📷 Esquemáticos KiCad</div>
   </div>
 </section>
