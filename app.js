@@ -1,10 +1,9 @@
-// Scroll suave para navegación
-document.querySelectorAll("nav a").forEach(link => {
-  link.addEventListener("click", e => {
+document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  link.addEventListener("click", (e) => {
+    const targetId = link.getAttribute("href");
+    const target = document.querySelector(targetId);
+    if (!target) return;
     e.preventDefault();
-    const id = link.getAttribute("href");
-    document.querySelector(id).scrollIntoView({
-      behavior: "smooth"
-    });
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 });
