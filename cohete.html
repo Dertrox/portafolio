@@ -3,229 +3,1039 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Proyecto Cohete | José Restrepo</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Sistema de Telemetría para Monitorear Parámetros en Cohetes Experimentales | José Restrepo</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --bg-2: #11161d;
+      --card: #151b23;
+      --card-2: #0f141b;
+      --line: rgba(255,255,255,.08);
+      --text: #e8eef5;
+      --muted: #9ba8b7;
+      --accent: #7fb8ff;
+      --accent-2: #8a7dff;
+      --accent-3: #34d399;
+      --shadow: 0 22px 60px rgba(0,0,0,.28);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(127,184,255,.10), transparent 28%),
+        radial-gradient(circle at right top, rgba(138,125,255,.08), transparent 22%),
+        linear-gradient(180deg, #070b10 0%, #0b0f14 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(calc(100% - 32px), var(--max));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(16px);
+      background: rgba(11,15,20,.82);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 18px rgba(127,184,255,.65);
+      flex: 0 0 auto;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      color: var(--muted);
+      transition: .2s ease;
+    }
+
+    .nav a:hover {
+      color: var(--text);
+      border-color: var(--line);
+      background: rgba(255,255,255,.03);
+    }
+
+    .hero {
+      padding: 36px 0 18px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      color: var(--accent);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 12px 0 14px;
+      font-size: clamp(2.3rem, 4.8vw, 4.6rem);
+      line-height: .98;
+      letter-spacing: -.06em;
+      max-width: 14ch;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.4rem, 2vw, 1.9rem);
+      letter-spacing: -.03em;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      font-size: 1.06rem;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .lead {
+      max-width: 78ch;
+      font-size: 1.05rem;
+    }
+
+    .chips, .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .chip, .tags span {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: .86rem;
+      color: var(--text);
+      background: rgba(127,184,255,.08);
+      border: 1px solid rgba(127,184,255,.12);
+    }
+
+    .section {
+      padding: 26px 0;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .section-title .note {
+      color: var(--muted);
+      max-width: 70ch;
+      margin: 0;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(21,27,35,.96), rgba(15,20,27,.96));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+
+    .hero-box {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items: stretch;
+      margin-top: 22px;
+    }
+
+    .hero-copy, .hero-side, .media-block, .card {
+      background: linear-gradient(180deg, rgba(21,27,35,.96), rgba(15,20,27,.96));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+    }
+
+    .hero-copy {
+      padding: 28px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-side {
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+      align-content: center;
+    }
+
+    .stat {
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.35rem;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .stat span { color: var(--muted); }
+
+    .media-block {
+      overflow: hidden;
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    figure img {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.06);
+      background: #0c1117;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+    }
+
+    figcaption {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: .88rem;
+      line-height: 1.45;
+    }
+
+    .media-copy {
+      display: grid;
+      gap: 10px;
+      padding: 20px 20px 22px;
+    }
+
+    .article-text {
+      display: grid;
+      gap: 12px;
+    }
+
+    .article-text p { margin-bottom: 0; }
+
+    .gallery-title {
+      margin-bottom: 10px;
+    }
+
+    .two-col-media {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .foot {
+      padding: 28px 0 42px;
+      text-align: center;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .small {
+      font-size: .95rem;
+    }
+
+    .highlight { color: var(--text); }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.1), transparent);
+      margin: 10px 0;
+    }
+
+    .callout {
+      border-left: 3px solid var(--accent);
+      padding-left: 14px;
+      color: var(--muted);
+    }
+
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .toc a {
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.02);
+      padding: 9px 12px;
+      border-radius: 999px;
+      transition: .2s ease;
+    }
+
+    .toc a:hover {
+      color: var(--text);
+      border-color: rgba(127,184,255,.28);
+    }
+
+    @media (max-width: 920px) {
+      .grid-2, .grid-3, .hero-box, .two-col-media {
+        grid-template-columns: 1fr;
+      }
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .nav { justify-content: flex-start; }
+      h1 { max-width: none; }
+    }
+  </style>
 </head>
 <body>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html">
-        <span class="brand-mark"></span>
-        <span>José Restrepo</span>
-      </a>
+      <a class="brand" href="index.html"><span class="brand-mark"></span><span>José Restrepo</span></a>
       <nav class="nav">
         <a href="index.html">Inicio</a>
         <a href="perfil.html">Perfil</a>
-        <a href="proyectos.html" class="active">Proyectos</a>
-        <a href="index.html#contacto">Contacto</a>
+        <a href="proyectos.html">Proyectos</a>
+        <a href="#contacto">Contacto</a>
       </nav>
     </div>
   </header>
 
-  <main class="container section page-content">
-    <p class="eyebrow">Proyecto destacado</p>
-    <h1>Sistema de Telemetría para Cohetes Experimentales</h1>
-    <p class="page-intro">
-      Desarrollo de un sistema completo para adquisición, almacenamiento, transmisión y visualización de datos en tiempo real,
-      con una placa final fabricada en JLCPCB y un flujo de trabajo que integra firmware, dashboard y simulación.
-    </p>
+  <main class="container">
+    <section class="hero" id="inicio">
+      <p class="eyebrow">Proyecto principal</p>
+      <h1>Sistema de Telemetría para Monitorear Parámetros en Cohetes Experimentales</h1>
+      <p class="lead">
+        Este proyecto integra diseño electrónico, fabricación de PCB, firmware embebido, comunicación inalámbrica y software de visualización
+        para monitorear variables críticas durante pruebas de vuelo. La idea central no es solo “medir datos”, sino construir una plataforma
+        completa que permita adquirir información, almacenarla, transmitirla a tierra y presentarla de forma comprensible para análisis posterior.
+      </p>
 
-    <div class="chips">
-      <span class="chip">ESP32-S3</span>
-      <span class="chip">LoRa SX1262</span>
-      <span class="chip">KiCad</span>
-      <span class="chip">JLCPCB</span>
-      <span class="chip">Python</span>
-      <span class="chip">OpenRocket</span>
-      <span class="chip">MATLAB</span>
-      <span class="chip">FreeRTOS</span>
-    </div>
+      <div class="chips">
+        <span>ESP32-S3</span>
+        <span>LoRa SX1262</span>
+        <span>KiCad</span>
+        <span>JLCPCB</span>
+        <span>Python</span>
+        <span>OpenRocket</span>
+        <span>MATLAB</span>
+        <span>FreeRTOS</span>
+      </div>
 
-    <section class="section">
-      <div class="hero-project">
-        <img src="assets/cohete_final.jpg" alt="Placa final del sistema de telemetría para cohetes" />
-        <div class="hero-project-copy">
-          <h2>Placa final</h2>
+      <div class="toc" aria-label="Tabla de contenido rápida">
+        <a href="#resumen">Resumen</a>
+        <a href="#placa-final">Placa final</a>
+        <a href="#arquitectura">Arquitectura</a>
+        <a href="#firmware">Firmware</a>
+        <a href="#dashboard">Dashboard</a>
+        <a href="#simulacion">Simulación</a>
+        <a href="#resultados">Resultados</a>
+      </div>
+
+      <div class="hero-box">
+        <div class="hero-copy">
+          <h2 id="resumen">Resumen técnico</h2>
           <p>
-            Esta es la versión final del sistema: una placa diseñada en KiCad y fabricada en JLCPCB,
-            integrada para operar como computadora de vuelo con sensado, comunicaciones, almacenamiento y control.
+            El sistema fue concebido como un nodo de vuelo y una estación de tierra, con una placa final fabricada en JLCPCB que concentra la
+            adquisición de sensores, el registro local y la transmisión por LoRa hacia tierra. El objetivo práctico fue obtener una solución
+            de telemetría de bajo costo, compacta y suficientemente robusta para operar en un entorno de vuelo experimental, donde el peso,
+            la estabilidad eléctrica y la confiabilidad de comunicación son variables críticas.
           </p>
-          <div class="chips">
-            <span class="chip">Placa final</span>
-            <span class="chip">Fabricación industrial</span>
-            <span class="chip">Integración completa</span>
+          <p>
+            A nivel de ingeniería, el proyecto se destaca porque conecta varias disciplinas en un mismo flujo: diseño de hardware en KiCad,
+            fabricación profesional, programación embebida con FreeRTOS, visualización de datos con Python y análisis previo del perfil de vuelo
+            mediante OpenRocket y MATLAB. Esa combinación hace que el proyecto no sea una simple “placa con sensores”, sino una solución completa
+            con lógica de misión, captura de datos y soporte para recuperación y análisis posterior.
+          </p>
+          <p class="callout">
+            <span class="highlight">Idea central:</span> convertir un vuelo experimental en datos útiles, reproducibles y analizables.
+          </p>
+        </div>
+        <aside class="hero-side">
+          <div class="stat">
+            <strong>Placa final</strong>
+            <span>Diseño consolidado y fabricado en JLCPCB</span>
           </div>
+          <div class="stat">
+            <strong>Pipeline completo</strong>
+            <span>Sensor → firmware → enlace → dashboard → análisis</span>
+          </div>
+          <div class="stat">
+            <strong>Enfoque</strong>
+            <span>telemetría, estabilidad eléctrica y trazabilidad técnica</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="placa-final">
+      <div class="section-title">
+        <div>
+          <h2>Placa final y fabricación</h2>
+          <p class="note">
+            Aquí conviene mostrar la placa que realmente quedó operativa. La lógica de portafolio es simple: menos versiones intermedias visibles,
+            más evidencia de una solución final sólida. La narrativa que interesa no es “cuántas veces falló”, sino cómo la versión final resuelve
+            de forma ordenada los requisitos del sistema.
+          </p>
+        </div>
+      </div>
+
+      <div class="media-block">
+        <div class="media-copy">
+          <h3>Placa final fabricada en JLCPCB</h3>
+          <p>
+            La versión final del proyecto fue diseñada en KiCad y posteriormente fabricada con JLCPCB, lo que permitió pasar de una etapa de
+            prototipo conceptual o artesanal a una implementación con mejor precisión mecánica, mejor repetibilidad eléctrica y una presentación
+            mucho más profesional. Este salto importa bastante en un portafolio, porque demuestra que el proyecto no quedó en una idea o en una
+            maqueta experimental, sino que se materializó en un hardware real listo para integrarse en un entorno de vuelo.
+          </p>
+          <p>
+            La placa final concentra la mayor parte de la inteligencia del sistema: lectura de sensores, enlace LoRa, almacenamiento local,
+            control del actuador de recuperación y la interfaz con el resto de subsistemas. Visualmente, esta imagen debe ocupar un lugar central
+            porque representa la culminación del trabajo de diseño electrónico; además, al mostrar la PCB ensamblada, el evaluador puede ver
+            inmediatamente que hay cuidado en el ruteo, selección de componentes, distribución de alimentación y orden general del montaje.
+          </p>
+          <p>
+            En la composición de la página, esta fotografía debe funcionar como la pieza principal del relato visual. No es solo una foto de una
+            placa: es la evidencia de que hubo una decisión técnica detrás de cada bloque del circuito, desde la entrada de energía hasta la
+            comunicación RF y la captura de datos. Por eso, el texto que acompaña a esta imagen debe dejar claro que se trata de la solución
+            final y no de un intento preliminar.
+          </p>
+        </div>
+        <div class="media-grid">
+          <figure>
+            <img src="assets/cohete_final.jpg" alt="Placa final del sistema de telemetría para cohetes">
+            <figcaption>Imagen principal: placa final del sistema completo, ensamblada y lista para integración.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/placa_final_superior.jpg" alt="Vista superior de la placa final">
+            <figcaption>Vista superior para apreciar distribución, orden de componentes y organización del diseño físico.</figcaption>
+          </figure>
+          <figure>
+            <img src="assets/placa_final_detalle.jpg" alt="Detalle de la placa final">
+            <figcaption>Detalle de componentes y acabados, útil para demostrar calidad de fabricación y montaje.</figcaption>
+          </figure>
         </div>
       </div>
     </section>
 
-    <section class="section">
-      <h2>Arquitectura del sistema</h2>
-      <div class="grid cards-2">
-        <article class="card">
-          <h3>Unidad de vuelo</h3>
+    <section class="section" id="arquitectura">
+      <div class="section-title">
+        <div>
+          <h2>Arquitectura general del sistema</h2>
+          <p class="note">
+            Esta parte debe ayudar al lector a entender el sistema completo sin perderse en el hardware. La idea es presentar el flujo funcional
+            de manera progresiva: qué entra, qué procesa, qué se almacena, qué se transmite y qué se visualiza. Si el lector entiende este bloque,
+            el resto de la página cobra sentido.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <article class="card article-text">
+          <h3>Nodo de vuelo</h3>
           <p>
-            Computadora de vuelo basada en ESP32-S3 con LoRa SX1262, encargada de leer sensores,
-            registrar datos y transmitir telemetría hacia tierra.
+            El nodo de vuelo es el corazón del sistema. Su tarea es adquirir variables físicas del cohete, organizarlas en una trama de telemetría,
+            registrar la información localmente y enviar copias periódicas hacia la estación base por LoRa. En la práctica, este nodo funciona como
+            una computadora de vuelo compacta: necesita ser pequeño, eficiente, robusto y capaz de seguir operando bajo vibraciones, cambios de
+            temperatura y restricciones de energía propias de un vuelo experimental.
+          </p>
+          <p>
+            En este bloque es importante explicar que el diseño no se limita a medir por medir. Cada lectura tiene una razón de ser: la presión
+            y la temperatura ayudan a estimar altitud y condiciones del entorno, la IMU permite inferir dinámica y aceleración, y el GPS aporta
+            referencia geográfica para seguimiento y recuperación. Así, la arquitectura del nodo de vuelo no solo adquiere datos, sino que los
+            contextualiza dentro del estado general del vehículo.
           </p>
         </article>
-        <article class="card">
+
+        <article class="card article-text">
           <h3>Estación base</h3>
           <p>
-            Nodo receptor conectado al computador para recibir tramas, validarlas y mostrarlas en el dashboard.
+            La estación base cumple el papel de receptor, validador y traductor de la telemetría. Recibe las tramas enviadas por el módulo LoRa,
+            verifica que los datos lleguen completos, procesa la información y la reenvía hacia una interfaz de visualización en el computador.
+            Esa estación es clave porque convierte datos crudos en información útil y legible durante la operación o después del vuelo.
+          </p>
+          <p>
+            En un portafolio técnico conviene dejar claro que el sistema no depende de una sola capa de salida. La estación base permite observar
+            la calidad del enlace, registrar eventos, generar logs de recepción y sostener un canal de diagnóstico que complementa la telemetría
+            principal. Esto refuerza la imagen de un sistema bien pensado, porque el lector ve que también se consideró la parte de tierra como
+            parte integral del diseño.
+          </p>
+        </article>
+      </div>
+
+      <div class="media-grid" style="margin-top:18px;">
+        <figure>
+          <img src="assets/diagrama_bloques_sistema.jpg" alt="Diagrama de bloques del sistema">
+          <figcaption>Diagrama general del sistema, útil para explicar el flujo entre adquisición, comunicación, registro y visualización.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/estacion_base.jpg" alt="Estación base de telemetría">
+          <figcaption>Estación de tierra o recepción, donde se visualizan y registran los datos del vuelo.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="sensores">
+      <div class="section-title">
+        <div>
+          <h2>Sensores y adquisición de datos</h2>
+          <p class="note">
+            Esta sección conviene redactarla con detalle porque es donde se entiende qué variables se miden y por qué. En tu caso, el valor no está
+            en decir “hay sensores”, sino en mostrar cómo cada sensor aporta una pieza distinta del vuelo: entorno, dinámica y posición.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <article class="card article-text">
+          <h3>BME680</h3>
+          <p>
+            El BME680 se utiliza como sensor ambiental principal. Aporta presión, temperatura y humedad, lo que permite estimar altitud barométrica
+            y monitorear el estado interno del compartimiento electrónico durante el vuelo. Su integración resulta valiosa porque combina varias
+            magnitudes en un solo encapsulado y reduce el número de componentes necesarios dentro de la placa, algo muy importante cuando el espacio
+            y el peso se convierten en restricciones reales del sistema.
+          </p>
+          <p>
+            En la narrativa de portafolio, este sensor debe presentarse como el soporte del análisis de altitud y condiciones internas. No solo
+            ayuda a conocer el entorno, también permite reconstruir parte del perfil de vuelo cuando el GPS no es suficiente o cuando el sistema
+            necesita una variable más estable para decidir estados internos. Esa doble función hace que el BME680 sea mucho más que un simple
+            termómetro o barómetro.
+          </p>
+        </article>
+
+        <article class="card article-text">
+          <h3>MPU6050</h3>
+          <p>
+            La MPU6050 se encarga de la medición inercial. A través del acelerómetro y el giroscopio se obtiene información sobre la dinámica del
+            cohete, su orientación y los cambios de aceleración durante las diferentes fases del vuelo. Esta información es especialmente útil
+            para detectar eventos como despegue, ascenso, transición a vuelo balístico y aproximación al apogeo, además de ayudar a evaluar el
+            comportamiento mecánico del vehículo en condiciones exigentes.
+          </p>
+          <p>
+            Para explicar bien esta parte, conviene señalar que la IMU no se usa aislada: sus datos se complementan con presión y GPS. Esa relación
+            entre sensores evita decisiones erróneas y le da al sistema una lectura mucho más confiable de la realidad física. En otras palabras,
+            la MPU6050 no “dice todo”, pero aporta el componente dinámico indispensable para que la telemetría sea realmente útil.
+          </p>
+        </article>
+
+        <article class="card article-text">
+          <h3>GPS GY-NEO6MV2</h3>
+          <p>
+            El módulo GPS aporta posición geográfica, velocidad estimada y apoyo para la recuperación del vehículo. En un cohete experimental,
+            esta información es crucial porque permite ubicar el punto de vuelo y reconstruir la trayectoria general del sistema después de la
+            misión. No se trata solamente de saber “dónde estuvo”, sino de ofrecer una referencia que complemente los datos internos del nodo de vuelo.
+          </p>
+          <p>
+            En términos de presentación, el GPS también sirve para demostrar criterio de ingeniería: no siempre se eligen los módulos más costosos,
+            sino los más adecuados al objetivo, al presupuesto y al entorno de uso. Esta elección comunica equilibrio entre costo, documentación
+            disponible, facilidad de integración y utilidad real para el proyecto.
+          </p>
+        </article>
+      </div>
+
+      <div class="media-grid" style="margin-top:18px;">
+        <figure>
+          <img src="assets/bme680.jpg" alt="Sensor BME680">
+          <figcaption>BME680 utilizado para variables ambientales y estimación barométrica.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/mpu6050.jpg" alt="Sensor MPU6050">
+          <figcaption>MPU6050 integrado para captura de aceleración y velocidad angular.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/gps_neo6m.jpg" alt="Módulo GPS GY-NEO6MV2">
+          <figcaption>GPS GY-NEO6MV2 para posición, seguimiento y apoyo en la recuperación.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="hardware">
+      <div class="section-title">
+        <div>
+          <h2>Hardware, energía y comunicación</h2>
+          <p class="note">
+            En esta parte debes mostrar la placa como un sistema de ingeniería y no como un conjunto de módulos pegados. El lector necesita ver
+            decisiones de alimentación, ruta de señales y forma de comunicación. Eso es lo que convierte una PCB en una plataforma funcional.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <article class="card article-text">
+          <h3>ESP32-S3 y LoRa SX1262</h3>
+          <p>
+            La computadora de vuelo se basa en un ESP32-S3 con LoRa SX1262, una combinación muy interesante porque permite trabajar con dos núcleos,
+            soporte nativo de multitarea y un subsistema inalámbrico pensado para comunicaciones de largo alcance y bajo consumo. En el contexto del
+            proyecto, esto resuelve el problema real de manejar varios flujos simultáneos: sensores, almacenamiento, transmisión y recuperación,
+            sin que una tarea bloquee a las demás.
+          </p>
+          <p>
+            El canal LoRa a 915 MHz le da sentido al sistema porque permite pensar en telemetría remota de forma práctica. No es una comunicación
+            de alta tasa de datos, pero sí una comunicación suficiente para variables de vuelo y, sobre todo, robusta en escenarios donde el enlace
+            necesita mantenerse estable durante una misión. En términos de portafolio, esto evidencia que el diseño no se quedó en teoría, sino que
+            se orientó a una aplicación realista.
+          </p>
+        </article>
+
+        <article class="card article-text">
+          <h3>Gestión de energía y microSD</h3>
+          <p>
+            La etapa de energía fue fundamental para que el sistema mantuviera estabilidad durante la operación. El diseño final utiliza conversión
+            DC-DC para reducir pérdidas térmicas y obtener una alimentación más eficiente en comparación con una solución lineal. Esa decisión no
+            es un detalle menor: en un sistema embarcado, la energía impacta directamente en temperatura, confiabilidad y vida útil del hardware.
+          </p>
+          <p>
+            El módulo microSD complementa la telemetría con almacenamiento local. Esto permite preservar los datos aunque el enlace inalámbrico se
+            degrade temporalmente o aunque se requiera un análisis posterior más detallado. Es una práctica muy importante en sistemas serios, porque
+            evita que toda la misión dependa exclusivamente del canal RF y además deja un respaldo para depuración y trazabilidad.
+          </p>
+        </article>
+      </div>
+
+      <div class="media-grid" style="margin-top:18px;">
+        <figure>
+          <img src="assets/esp32_sx1262.jpg" alt="Placa ESP32-S3 con LoRa SX1262">
+          <figcaption>Bloque principal de control y comunicación inalámbrica del sistema de vuelo.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/dc_dc_lm2596.jpg" alt="Etapa de potencia DC-DC LM2596">
+          <figcaption>Etapa de potencia conmutada para mejorar eficiencia y estabilidad energética.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/microsd.jpg" alt="Módulo microSD">
+          <figcaption>Almacenamiento local del registro de vuelo y respaldo de telemetría.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="firmware">
+      <div class="section-title">
+        <div>
+          <h2>Firmware embebido y lógica de vuelo</h2>
+          <p class="note">
+            El firmware es donde el sistema deja de ser solo hardware y se convierte en una plataforma inteligente. Esta sección debe explicar cómo
+            se organizan las tareas, cómo se toman decisiones y cómo se protege el sistema ante eventos reales de vuelo.
+          </p>
+        </div>
+      </div>
+
+      <div class="card article-text">
+        <h3>Organización con FreeRTOS</h3>
+        <p>
+          El software embebido se estructuró con FreeRTOS para aprovechar los recursos del ESP32-S3 de forma más limpia y predecible. Esta decisión
+          es importante porque el sistema necesita leer sensores, empacar datos, manejar la radio, registrar en microSD y controlar el actuador de
+          recuperación, todo sin que una tarea interrumpa a las demás de forma destructiva. En un solo bucle secuencial sería mucho más fácil caer
+          en bloqueos, retrasos o pérdida de paquetes.
+        </p>
+        <p>
+          La programación se organiza en tareas claras: una para sensores, otra para LoRa, una para servo y otra para indicadores. Esa separación
+          no solo facilita el mantenimiento, sino que también hace que el proyecto sea explicable ante quien lo revise. Cuando una persona técnica
+          observa este diseño, entiende que existe criterio de arquitectura de software, no improvisación.
+        </p>
+        <p>
+          En la aplicación concreta, la tarea de sensores agrupa lecturas del BME680, del MPU6050 y del GPS; la tarea de radio administra la
+          transmisión y recepción de tramas; la tarea de servo controla el mecanismo de recuperación; y la tarea de LED sirve para diagnóstico.
+          Esa división evidencia que el sistema fue pensado como un conjunto de módulos cooperativos, no como una rutina monolítica.
+        </p>
+      </div>
+
+      <div class="two-col-media" style="margin-top:18px;">
+        <figure class="media-block">
+          <img src="assets/firmware_freertos.jpg" alt="Diagrama o captura del firmware FreeRTOS">
+          <figcaption>Esquema lógico del firmware, útil para explicar la distribución de tareas y prioridades.</figcaption>
+          <div class="media-copy">
+            <p>
+              Este tipo de imagen debe acompañarse con una explicación de por qué FreeRTOS fue la solución elegida. La razón principal es que un
+              sistema de telemetría para vuelo exige concurrencia: sensores, comunicación, almacenamiento y control tienen ritmos diferentes y no
+              conviene forzarlos a correr todos en la misma secuencia sin planificación.
+            </p>
+            <p>
+              También conviene destacar que el uso de tareas ayuda a separar la lógica de hardware de la lógica de misión. Así, el proyecto se ve
+              más profesional porque la arquitectura del código corresponde con la arquitectura física del sistema.
+            </p>
+          </div>
+        </figure>
+
+        <figure class="media-block">
+          <img src="assets/estado_vuelo.jpg" alt="Máquina de estados del sistema de vuelo">
+          <figcaption>Máquina de estados usada para transición entre etapas de vuelo y recuperación.</figcaption>
+          <div class="media-copy">
+            <p>
+              La máquina de estados es una pieza crítica porque evita decisiones ingenuas basadas en una sola lectura. El sistema evalúa la dinámica
+              del vuelo con criterios como aceleración, altitud relativa y velocidad vertical para definir estados de armado, ascenso, apogeo,
+              descenso y recuperación. Esta lógica es la diferencia entre un control experimental y un control pensado para operar con criterio.
+            </p>
+            <p>
+              En un portafolio, esta sección comunica madurez técnica: no se trata de activar un servo por intuición, sino de construir una secuencia
+              lógica coherente con el comportamiento esperado del cohete. Eso da confianza porque muestra que el sistema está pensado para evitar
+              errores de activación durante tierra o en condiciones no válidas.
+            </p>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="dashboard">
+      <div class="section-title">
+        <div>
+          <h2>Dashboard y software de visualización</h2>
+          <p class="note">
+            Esta es una de las partes que más vende el proyecto frente a un reclutador o evaluador técnico. El hardware por sí solo impresiona,
+            pero el software de visualización demuestra que sabes cerrar el ciclo completo: adquirir, transportar, interpretar y mostrar datos.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <article class="card article-text">
+          <h3>Aplicación en Python</h3>
+          <p>
+            Se desarrolló una aplicación en Python para recibir datos desde la estación base, decodificar las tramas y presentarlas en una interfaz
+            de monitoreo. Ese software funciona como puente entre el flujo físico del vuelo y la lectura humana del sistema, porque transforma un
+            paquete de datos en variables legibles, trazables y útiles para análisis posterior. La elección de Python no solo facilita el desarrollo,
+            también permite extender la herramienta con rapidez en futuras iteraciones.
+          </p>
+          <p>
+            En este bloque conviene explicar que el objetivo no es decorar la información, sino convertirla en una herramienta operativa. La
+            interfaz puede mostrar temperatura, humedad, presión, altitud, posición, RSSI y SNR, además de guardar registros en CSV para revisar
+            la misión después del vuelo. Eso hace que el dashboard tenga valor técnico real y no solo valor visual.
+          </p>
+        </article>
+
+        <article class="card article-text">
+          <h3>Capa web: HTML, CSS y JavaScript</h3>
+          <p>
+            Además de Python, el proyecto incorpora una capa web construida con HTML, CSS y JavaScript para mostrar datos de forma clara, rápida y
+            compatible con la idea de monitoreo remoto. Esta decisión es útil porque permite crear una visualización ligera, fácil de revisar y
+            adaptable a diferentes pantallas o futuras integraciones. También refuerza el hecho de que el proyecto no se queda en el código del
+            microcontrolador, sino que llega hasta una interfaz de usuario pensada para el análisis de la información.
+          </p>
+          <p>
+            Cuando presentes este bloque, conviene que el lector entienda que el dashboard no es un adorno. Es la ventana de operación del sistema:
+            ahí se observan el comportamiento de la telemetría, la calidad del enlace y el respaldo de los datos recibidos. En otras palabras,
+            el dashboard es la evidencia de que el proyecto está pensado para ser usado, no solo para ser ensamblado.
+          </p>
+        </article>
+      </div>
+
+      <div class="media-grid" style="margin-top:18px;">
+        <figure>
+          <img src="assets/dashboard_python.jpg" alt="Dashboard en Python">
+          <figcaption>Interfaz en Python para recepción, visualización y registro de datos de telemetría.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/dashboard_web.jpg" alt="Dashboard web HTML CSS JS">
+          <figcaption>Vista web utilizada para visualizar la telemetría y el estado de la misión.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/log_csv.jpg" alt="Archivo CSV de telemetría">
+          <figcaption>Registro CSV de recepción y almacenamiento de datos para análisis posterior.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="conexion">
+      <div class="section-title">
+        <div>
+          <h2>Conexión y flujo de datos</h2>
+          <p class="note">
+            Muchas páginas fallan por no explicar la ruta de la información. Aquí conviene dejar muy claro cómo sale el dato del cohete, cómo
+            llega a tierra y cómo termina en la pantalla. Ese recorrido fortalece muchísimo la percepción de sistema serio.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <article class="card article-text">
+          <h3>Tramas de telemetría</h3>
+          <p>
+            El firmware empaqueta la información en tramas con campos específicos para variables de vuelo, estados y métricas del enlace. Al
+            estructurar los datos de esta manera, el sistema evita la ambigüedad y facilita tanto la validación en tiempo real como el análisis
+            posterior. El uso de tramas también permite verificar si la comunicación se mantiene estable o si existe degradación en el enlace,
+            algo especialmente importante en un vehículo en movimiento y con condiciones de RF cambiantes.
+          </p>
+          <p>
+            En la página conviene resaltar que la telemetría no se reduce a “mandar números”. Se trata de comunicar información en un formato
+            que pueda ser entendible por el software de recepción y útil para el operador. Esa disciplina de diseño hace que el proyecto tenga más
+            credibilidad porque demuestra orden en la ingeniería de comunicaciones.
+          </p>
+        </article>
+
+        <article class="card article-text">
+          <h3>Registro y trazabilidad</h3>
+          <p>
+            El sistema también guarda datos localmente para asegurar que la información no se pierda si el enlace inalámbrico presenta cortes,
+            interferencias o zonas de baja cobertura. La redundancia de almacenamiento es una práctica clave en telemetría seria porque permite
+            recuperar la información completa de la misión, comparar resultados y depurar comportamientos inesperados del sistema.
+          </p>
+          <p>
+            Conservar logs también ayuda a demostrar que el proyecto fue diseñado con criterio experimental. No solamente importa que funcione en
+            tiempo real; también importa que deje evidencia para revisar después. En ese sentido, el archivo CSV y el historial de recepción son
+            parte esencial del resultado final y no una característica secundaria.
           </p>
         </article>
       </div>
     </section>
 
-    <section class="section">
-      <h2>Componentes principales</h2>
-      <div class="grid cards-3">
-        <article class="card">
-          <h3>Sensado</h3>
-          <p>BME680 para presión, temperatura y humedad. MPU6050 para aceleración y velocidad angular. GPS GY-NEO6MV2 para posición y seguimiento.</p>
-        </article>
-        <article class="card">
-          <h3>Comunicación</h3>
-          <p>LoRa SX1262 a 915 MHz para enlace de largo alcance con enfoque en telemetría experimental.</p>
-        </article>
-        <article class="card">
-          <h3>Registro y energía</h3>
-          <p>microSD para almacenamiento local y etapa de potencia con conversión DC-DC para mejorar eficiencia y estabilidad.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Firmware embebido</h2>
-      <div class="card">
-        <p>
-          El firmware organiza el sistema con FreeRTOS para manejar adquisición, radio, servo de recuperación y diagnóstico LED.
-          El diseño lógico separa tareas como sensores, transmisión LoRa, control del servo y estado del sistema.
-        </p>
-
-        <div class="grid cards-2 spaced-top">
-          <article class="card">
-            <h3>TaskSensors</h3>
-            <p>Lee BME680, MPU6050 y GPS; calcula variables derivadas; construye la estructura de telemetría.</p>
-          </article>
-          <article class="card">
-            <h3>TaskLoRa</h3>
-            <p>Empaqueta la telemetría y administra la transmisión y recepción del enlace con la estación base.</p>
-          </article>
-          <article class="card">
-            <h3>TaskServo</h3>
-            <p>Gestiona el actuador de recuperación para el despliegue del paracaídas.</p>
-          </article>
-          <article class="card">
-            <h3>TaskLED</h3>
-            <p>Provee diagnóstico visual y estado de fallos en el sistema.</p>
-          </article>
+    <section class="section" id="simulacion">
+      <div class="section-title">
+        <div>
+          <h2>Simulación en OpenRocket y MATLAB</h2>
+          <p class="note">
+            Esta parte agrega mucha confianza porque muestra que el sistema no se diseñó a ciegas. La simulación ayuda a justificar umbrales,
+            estimar fases de vuelo y entender qué variables se deben observar con más atención durante la misión.
+          </p>
         </div>
       </div>
-    </section>
 
-    <section class="section">
-      <h2>Lógica de vuelo y recuperación</h2>
-      <div class="card">
-        <p>
-          La lógica del sistema define estados de vuelo y usa umbrales calculados a partir de la dinámica del cohete.
-          El despliegue del paracaídas no depende de una sola lectura: se evalúan aceleración, velocidad vertical y altitud relativa
-          para evitar activaciones erróneas.
-        </p>
-        <p class="small-note">
-          <!-- AGREGAR AQUÍ: captura del código de la máquina de estados, diagrama o imagen de la lógica de despliegue -->
-        </p>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Dashboard de visualización</h2>
-      <div class="card">
-        <p>
-          Se desarrolló una interfaz en Python y una capa web con HTML, CSS y JavaScript para visualizar la telemetría recibida desde la estación base.
-          El sistema registra datos y permite seguir variables como altitud, temperatura, humedad, posición, RSSI y SNR.
-        </p>
-
-        <div class="grid cards-2 spaced-top">
-          <article class="card">
-            <h3>Recepción</h3>
-            <p>Lectura serial de tramas, parseo de datos y actualización en tiempo real.</p>
-          </article>
-          <article class="card">
-            <h3>Registro</h3>
-            <p>Salida a CSV para conservar datos de vuelo y métricas del enlace.</p>
-          </article>
-        </div>
-
-        <p class="small-note">
-          <!-- AGREGAR AQUÍ: captura del dashboard en ejecución -->
-        </p>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Simulación y validación</h2>
-      <div class="grid cards-2">
-        <article class="card">
+      <div class="grid-2">
+        <article class="card article-text">
           <h3>OpenRocket</h3>
           <p>
-            Se usó para modelar el cohete, verificar geometría, estabilidad y comportamiento general del vuelo.
-            Las curvas obtenidas ayudaron a definir el perfil de ascenso y descenso.
+            OpenRocket se utilizó para modelar el cohete, revisar estabilidad, estimar la trayectoria general y observar el comportamiento de
+            ascenso y descenso. Esta etapa es muy importante porque permite conectar la forma física del vehículo con su respuesta esperada en
+            vuelo. Si el modelo aerodinámico es razonable, entonces las decisiones sobre ubicación de sensores, volumen interno y lógica de
+            recuperación también adquieren más sentido.
           </p>
-          <p class="small-note">
-            <!-- AGREGAR AQUÍ: gráfica o captura de OpenRocket -->
+          <p>
+            En el portafolio, la simulación no debe verse como algo decorativo. Debe presentarse como una herramienta de validación previa que
+            ayuda a decidir en qué condiciones el sistema embarcado va a actuar. Eso eleva muchísimo la calidad de la narrativa, porque muestra
+            que el proyecto se apoya en análisis antes de fabricar y probar.
           </p>
         </article>
-        <article class="card">
+
+        <article class="card article-text">
           <h3>MATLAB</h3>
           <p>
-            Se utilizó para validar y comparar la respuesta de vuelo mediante simulación matemática,
-            cruzando resultados con OpenRocket para definir umbrales y criterios de despliegue.
+            MATLAB se usó para comparar y complementar el comportamiento obtenido en OpenRocket mediante un enfoque más matemático y de análisis
+            de variables. A partir de esas simulaciones se obtuvieron referencias para la lógica de recuperación, el criterio de apogeo y la relación
+            entre aceleración, velocidad vertical y altitud relativa. Esa cruz entre herramientas es valiosa porque no se queda con una sola fuente
+            de verdad, sino que contrasta el vuelo desde dos perspectivas.
           </p>
-          <p class="small-note">
-            <!-- AGREGAR AQUÍ: gráfica o captura de MATLAB -->
+          <p>
+            En términos de presentación, puedes explicar que MATLAB sirvió para validar y refinar los umbrales usados por el sistema embebido.
+            Eso muestra una cadena de diseño coherente: simulación → decisión → implementación → prueba. Ese flujo transmite madurez técnica,
+            porque el lector entiende que hubo una ingeniería detrás del código y no una activación arbitraria de la electrónica.
           </p>
         </article>
       </div>
+
+      <div class="media-grid" style="margin-top:18px;">
+        <figure>
+          <img src="assets/openrocket_1.jpg" alt="Simulación en OpenRocket">
+          <figcaption>Modelo aerodinámico y perfil de vuelo obtenido con OpenRocket.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/openrocket_2.jpg" alt="Perfil de altitud en OpenRocket">
+          <figcaption>Curva de altitud y comportamiento esperado del cohete en simulación.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/matlab_1.jpg" alt="Simulación en MATLAB">
+          <figcaption>Modelo y validación de parámetros en MATLAB para definición de umbrales.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/matlab_2.jpg" alt="Gráficas en MATLAB">
+          <figcaption>Gráficas de comparación y análisis matemático del vuelo.</figcaption>
+        </figure>
+      </div>
     </section>
 
-    <section class="section">
-      <h2>Resultados</h2>
-      <div class="card">
+    <section class="section" id="recuperacion">
+      <div class="section-title">
+        <div>
+          <h2>Recuperación y control del paracaídas</h2>
+          <p class="note">
+            La recuperación es el cierre lógico del sistema. Si el cohete no puede recuperar el vehículo o si el mecanismo no responde de manera
+            confiable, todo el valor del monitoreo se reduce mucho. Por eso esta parte merece un espacio narrativo claro dentro del proyecto.
+          </p>
+        </div>
+      </div>
+
+      <div class="card article-text">
+        <h3>Mecanismo de expulsión</h3>
         <p>
-          El resultado final es una plataforma de telemetría funcional para cohetería experimental:
-          adquiere datos, los guarda localmente, los transmite por LoRa y los presenta en una interfaz de monitoreo.
-          Además, el diseño quedó listo para pruebas y expansión futura.
+          El sistema incorpora una lógica para la expulsión del paracaídas mediante un actuador controlado por el firmware. La activación no se
+          hace de forma simplista; se apoya en estados de vuelo y condiciones relacionadas con aceleración y altitud relativa, de modo que la
+          recuperación ocurra cuando el vehículo realmente ha alcanzado la fase esperada. Este criterio evita activaciones inoportunas y mejora
+          la seguridad del ensayo.
+        </p>
+        <p>
+          Desde el punto de vista del portafolio, esta funcionalidad muestra que el proyecto no solo observa el vuelo, sino que participa en su
+          recuperación. Eso es muy potente porque añade una dimensión activa al sistema: no es un observador pasivo, sino un subsistema capaz de
+          intervenir en la misión y apoyar el retorno seguro del vehículo.
         </p>
       </div>
+
+      <div class="media-grid" style="margin-top:18px;">
+        <figure>
+          <img src="assets/parachute_mechanism.jpg" alt="Mecanismo de expulsión del paracaídas">
+          <figcaption>Mecanismo físico de recuperación y expulsión del paracaídas.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/parachute_integrated.jpg" alt="Sistema de recuperación integrado">
+          <figcaption>Sistema de recuperación integrado al conjunto del cohete experimental.</figcaption>
+        </figure>
+      </div>
     </section>
 
-    <section class="section">
-      <h2>Evidencia visual</h2>
-      <div class="grid cards-3">
-        <article class="card">
-          <h3>Placa final</h3>
-          <p>Foto de la PCB ensamblada y montada.</p>
+    <section class="section" id="resultados">
+      <div class="section-title">
+        <div>
+          <h2>Resultados y lectura del proyecto</h2>
+          <p class="note">
+            El cierre debe resumir lo que de verdad logró el sistema. No hace falta exagerar: basta con decir qué integra, qué resuelve y por qué
+            tiene valor técnico. Eso deja una impresión fuerte y limpia.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <article class="card article-text">
+          <h3>Qué se logró</h3>
+          <p>
+            Se obtuvo una plataforma de telemetría capaz de adquirir variables críticas del vuelo, registrar datos localmente, transmitirlos hacia
+            una estación base y presentarlos en una interfaz de monitoreo. Además, la arquitectura final quedó soportada por una placa fabricada
+            profesionalmente, lo que eleva la confiabilidad y la presentación del proyecto frente a un evaluador o posible empleador.
+          </p>
+          <p>
+            También se dejó preparada una cadena completa de desarrollo que va desde el modelado hasta la visualización. Esa continuidad entre
+            hardware, firmware, dashboard y simulación hace que el proyecto tenga un perfil muy competitivo dentro de un portafolio técnico,
+            porque demuestra que sabes llevar una idea hasta una solución documentada y funcional.
+          </p>
         </article>
-        <article class="card">
-          <h3>Dashboard</h3>
-          <p>Captura de la interfaz de monitoreo en Python/web.</p>
+
+        <article class="card article-text">
+          <h3>Valor profesional</h3>
+          <p>
+            Lo más valioso del proyecto no es solo la electrónica ni el software por separado, sino la forma en que ambos se integran para resolver
+            un problema concreto. Eso le da al portafolio una narrativa muy fuerte: diseñar, fabricar, programar, simular y visualizar dentro de un
+            mismo sistema. Para quien revisa tu trabajo, eso habla de criterio técnico, persistencia y capacidad de cerrar proyectos reales.
+          </p>
+          <p>
+            Si después agregas imágenes reales, gráficas y capturas del dashboard, esta página va a parecer un caso de estudio técnico serio.
+            Y eso es exactamente lo que quieres: una presentación clara, profesional y creíble de lo que ya construiste.
+          </p>
         </article>
-        <article class="card">
-          <h3>Simulaciones</h3>
-          <p>Imágenes de OpenRocket y MATLAB para soporte técnico.</p>
-        </article>
+      </div>
+    </section>
+
+    <section class="section" id="evidencia">
+      <div class="section-title">
+        <div>
+          <h2>Evidencia visual final</h2>
+          <p class="note">
+            Esta última galería sirve como cierre visual. Aquí puedes meter todas las fotos que tengas en assets, siempre que estén ordenadas por
+            tema. Mientras más evidencia clara y bien rotulada haya, más confianza genera el proyecto.
+          </p>
+        </div>
+      </div>
+
+      <div class="media-grid">
+        <figure>
+          <img src="assets/cohete_final.jpg" alt="Placa final del cohete">
+          <figcaption>Placa final completa.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/dashboard_web.jpg" alt="Dashboard web de telemetría">
+          <figcaption>Dashboard de visualización.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/openrocket_1.jpg" alt="OpenRocket">
+          <figcaption>Simulación en OpenRocket.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/matlab_1.jpg" alt="MATLAB">
+          <figcaption>Análisis en MATLAB.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/gps_neo6m.jpg" alt="GPS">
+          <figcaption>Subsistema de posicionamiento.</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/esp32_sx1262.jpg" alt="ESP32 y LoRa">
+          <figcaption>Computadora de vuelo y radio.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="contacto" class="section">
+      <div class="card article-text">
+        <h2>Contacto</h2>
+        <p>
+          Si esta página se usa como parte de un portafolio público, el contacto debe quedar visible y simple. Un correo directo y tu repositorio
+          principal suelen ser suficientes; lo importante aquí es que el lector no tenga que buscar demasiado para validar que el proyecto existe
+          y que hay continuidad real en tu trabajo.
+        </p>
+        <p>
+          <span class="highlight">Email:</span> jose.restrepowork@gmail.com<br>
+          <span class="highlight">GitHub:</span> github.com/Dertrox
+        </p>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p><a href="proyectos.html">Volver a proyectos</a></p>
-    </div>
+  <footer class="foot">
+    Proyecto técnico · Sistema de telemetría para cohetes experimentales · HTML + CSS + JavaScript puro.
   </footer>
-
-  <script src="app.js"></script>
 </body>
 </html>
