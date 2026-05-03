@@ -1,93 +1,116 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>José Restrepo | Portafolio</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark"></span>
+        <span>José Restrepo</span>
+      </a>
 
-<header>
-  <div class="container header-content">
-    <h1>José Restrepo</h1>
-    <nav>
-      <a href="#perfil">Perfil</a>
-      <a href="#proyectos">Proyectos</a>
-      <a href="#experiencia">Experiencia</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
-  </div>
-</header>
-
-<main class="container">
-
-<section id="perfil">
-  <h2>Perfil</h2>
-  <p>
-    Desarrollo sistemas que integran electrónica, software y visualización.
-    Trabajo con telemetría, comunicación inalámbrica, FPGA y prototipos interactivos.
-  </p>
-</section>
-
-<section id="proyectos">
-  <h2>Proyectos</h2>
-
-  <div class="grid">
-
-    <div class="card">
-      <img src="assets/cohete.jpg" alt="Cohete">
-      <h3>Cohete con telemetría</h3>
-      <p>ESP32 + LoRa + sensores + GPS para monitoreo en tiempo real.</p>
+      <nav class="nav">
+        <a href="perfil.html">Perfil</a>
+        <a href="proyectos.html">Proyectos</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
     </div>
+  </header>
 
-    <div class="card">
-      <img src="assets/fpga.png" alt="FPGA">
-      <h3>Procesamiento en FPGA</h3>
-      <p>Filtrado de señales y visualización en interfaz Python.</p>
+  <main>
+    <section class="hero container">
+      <div class="hero-copy">
+        <p class="eyebrow">Portafolio técnico</p>
+        <h1>Electrónica, telemetría, FPGA y desarrollo interactivo.</h1>
+        <p class="lead">
+          Diseño y construyo proyectos donde el hardware, el software y la visualización trabajan juntos.
+          Este espacio reúne mi perfil, mis proyectos y la documentación técnica de cada uno.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn primary" href="proyectos.html">Ver proyectos</a>
+          <a class="btn secondary" href="perfil.html">Ver perfil</a>
+        </div>
+      </div>
+
+      <aside class="hero-panel">
+        <div class="stat">
+          <strong>4 áreas</strong>
+          <span>electrónica, RF, FPGA y software</span>
+        </div>
+        <div class="stat">
+          <strong>1 portafolio</strong>
+          <span>serio, claro y escalable</span>
+        </div>
+        <div class="stat">
+          <strong>Documentación</strong>
+          <span>cada proyecto con su propia página</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="container section">
+      <div class="section-head">
+        <h2>Proyectos destacados</h2>
+        <a class="text-link" href="proyectos.html">Ver todos</a>
+      </div>
+
+      <div class="grid cards-3">
+        <article class="card project-card">
+          <img src="assets/cohete.jpg" alt="Proyecto de cohete" />
+          <div class="card-body">
+            <p class="tag">Telemetría</p>
+            <h3>Cohete experimental</h3>
+            <p>Adquisición, transmisión y monitoreo de variables para pruebas de vuelo.</p>
+            <a class="text-link" href="cohete.html">Abrir proyecto</a>
+          </div>
+        </article>
+
+        <article class="card project-card">
+          <img src="assets/fpga.jpg" alt="Proyecto FPGA" />
+          <div class="card-body">
+            <p class="tag">FPGA</p>
+            <h3>Procesamiento de señales</h3>
+            <p>Filtrado en hardware y visualización de resultados en PC.</p>
+            <a class="text-link" href="fpga.html">Abrir proyecto</a>
+          </div>
+        </article>
+
+        <article class="card project-card">
+          <img src="assets/unity.jpg" alt="Proyecto Unity" />
+          <div class="card-body">
+            <p class="tag">Unity</p>
+            <h3>Sistemas interactivos</h3>
+            <p>Interfaces, control de unidades y prototipos jugables.</p>
+            <a class="text-link" href="unity.html">Abrir proyecto</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contacto" class="container section">
+      <div class="section-head">
+        <h2>Contacto</h2>
+      </div>
+
+      <div class="card contact-card">
+        <p><strong>Email:</strong> <a href="mailto:jose.restrepowork@gmail.com">jose.restrepowork@gmail.com</a></p>
+        <p><strong>GitHub:</strong> <a href="https://github.com/Dertrox" target="_blank" rel="noreferrer">github.com/Dertrox</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Portafolio técnico de José Restrepo.</p>
     </div>
+  </footer>
 
-    <div class="card">
-      <img src="assets/unity.png" alt="Unity">
-      <h3>Desarrollo en Unity</h3>
-      <p>Sistemas de juego y UI interactiva.</p>
-    </div>
-
-  </div>
-</section>
-
-<section id="experiencia">
-  <h2>Áreas de trabajo</h2>
-
-  <div class="card">
-    <h3>Telemetría</h3>
-    <p>Integración de sensores, RF y monitoreo.</p>
-  </div>
-
-  <div class="card">
-    <h3>FPGA</h3>
-    <p>Procesamiento digital y filtrado de señales.</p>
-  </div>
-
-  <div class="card">
-    <h3>Unity</h3>
-    <p>Interfaces y prototipos interactivos.</p>
-  </div>
-
-</section>
-
-<section id="contacto">
-  <h2>Contacto</h2>
-
-  <div class="card">
-    <p>Email: <a href="mailto:jose.restrepowork@gmail.com">jose.restrepowork@gmail.com</a></p>
-    <p>GitHub: <a href="https://github.com/Dertrox">github.com/Dertrox</a></p>
-  </div>
-
-</section>
-
-</main>
-
-<script src="app.js"></script>
-
+  <script src="app.js"></script>
 </body>
 </html>
