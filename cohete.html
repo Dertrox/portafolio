@@ -1,138 +1,231 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Telemetría para Cohetes | José Restrepo</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proyecto Cohete | José Restrepo</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-<header class="header">
-  <div class="container nav">
-    <h1>Proyecto Cohete</h1>
-    <div>
-      <a href="index.html">Inicio</a>
-      <a href="proyectos.html">Proyectos</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark"></span>
+        <span>José Restrepo</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Inicio</a>
+        <a href="perfil.html">Perfil</a>
+        <a href="proyectos.html" class="active">Proyectos</a>
+        <a href="index.html#contacto">Contacto</a>
+      </nav>
     </div>
-  </div>
-</header>
+  </header>
 
-<main class="container">
-
-<!-- INTRO -->
-<section class="section">
-  <h1>Sistema de Telemetría para Cohetes Experimentales</h1>
-
-  <p>
-    Sistema electrónico diseñado para la adquisición, almacenamiento y transmisión
-    de datos en tiempo real durante pruebas de vuelo en cohetes experimentales.
-  </p>
-
-  <div class="tags">
-    <span>ESP32</span>
-    <span>LoRa</span>
-    <span>KiCad</span>
-    <span>SPI</span>
-    <span>I2C</span>
-    <span>UART</span>
-    <span>DC-DC</span>
-  </div>
-</section>
-
-<!-- ARQUITECTURA -->
-<section class="section">
-  <h2>Arquitectura del sistema</h2>
-
-  <div class="card">
-    <ul>
-      <li><strong>Placa A:</strong> Sensores y adquisición de datos</li>
-      <li><strong>Placa B:</strong> Control, procesamiento y potencia</li>
-    </ul>
-
-    <p>
-      La separación del sistema en dos módulos permitió mejorar la organización de señales,
-      reducir interferencias y aumentar la estabilidad general del sistema.
+  <main class="container section page-content">
+    <p class="eyebrow">Proyecto destacado</p>
+    <h1>Sistema de Telemetría para Cohetes Experimentales</h1>
+    <p class="page-intro">
+      Desarrollo de un sistema completo para adquisición, almacenamiento, transmisión y visualización de datos en tiempo real,
+      con una placa final fabricada en JLCPCB y un flujo de trabajo que integra firmware, dashboard y simulación.
     </p>
-  </div>
-</section>
 
-<!-- FUNCIONAMIENTO -->
-<section class="section">
-  <h2>Funcionamiento</h2>
+    <div class="chips">
+      <span class="chip">ESP32-S3</span>
+      <span class="chip">LoRa SX1262</span>
+      <span class="chip">KiCad</span>
+      <span class="chip">JLCPCB</span>
+      <span class="chip">Python</span>
+      <span class="chip">OpenRocket</span>
+      <span class="chip">MATLAB</span>
+      <span class="chip">FreeRTOS</span>
+    </div>
 
-  <div class="card">
-    <ul>
-      <li>Lectura simultánea de sensores mediante bus I2C</li>
-      <li>Registro de datos en memoria microSD mediante SPI</li>
-      <li>Transmisión inalámbrica en tiempo real mediante LoRa</li>
-      <li>Comunicación interna usando UART para control y depuración</li>
-    </ul>
-  </div>
-</section>
+    <section class="section">
+      <div class="hero-project">
+        <img src="assets/cohete_final.jpg" alt="Placa final del sistema de telemetría para cohetes" />
+        <div class="hero-project-copy">
+          <h2>Placa final</h2>
+          <p>
+            Esta es la versión final del sistema: una placa diseñada en KiCad y fabricada en JLCPCB,
+            integrada para operar como computadora de vuelo con sensado, comunicaciones, almacenamiento y control.
+          </p>
+          <div class="chips">
+            <span class="chip">Placa final</span>
+            <span class="chip">Fabricación industrial</span>
+            <span class="chip">Integración completa</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<!-- DISEÑO ELECTRONICO -->
-<section class="section">
-  <h2>Diseño electrónico</h2>
+    <section class="section">
+      <h2>Arquitectura del sistema</h2>
+      <div class="grid cards-2">
+        <article class="card">
+          <h3>Unidad de vuelo</h3>
+          <p>
+            Computadora de vuelo basada en ESP32-S3 con LoRa SX1262, encargada de leer sensores,
+            registrar datos y transmitir telemetría hacia tierra.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Estación base</h3>
+          <p>
+            Nodo receptor conectado al computador para recibir tramas, validarlas y mostrarlas en el dashboard.
+          </p>
+        </article>
+      </div>
+    </section>
 
-  <div class="card">
-    <p>
-      El sistema fue diseñado en KiCad, implementando una arquitectura modular que separa
-      adquisición y control. Se aplicaron técnicas de desacoplo en líneas de alimentación
-      y organización de buses para garantizar integridad de señal.
-    </p>
-  </div>
-</section>
+    <section class="section">
+      <h2>Componentes principales</h2>
+      <div class="grid cards-3">
+        <article class="card">
+          <h3>Sensado</h3>
+          <p>BME680 para presión, temperatura y humedad. MPU6050 para aceleración y velocidad angular. GPS GY-NEO6MV2 para posición y seguimiento.</p>
+        </article>
+        <article class="card">
+          <h3>Comunicación</h3>
+          <p>LoRa SX1262 a 915 MHz para enlace de largo alcance con enfoque en telemetría experimental.</p>
+        </article>
+        <article class="card">
+          <h3>Registro y energía</h3>
+          <p>microSD para almacenamiento local y etapa de potencia con conversión DC-DC para mejorar eficiencia y estabilidad.</p>
+        </article>
+      </div>
+    </section>
 
-<!-- POTENCIA -->
-<section class="section">
-  <h2>Gestión de energía</h2>
+    <section class="section">
+      <h2>Firmware embebido</h2>
+      <div class="card">
+        <p>
+          El firmware organiza el sistema con FreeRTOS para manejar adquisición, radio, servo de recuperación y diagnóstico LED.
+          El diseño lógico separa tareas como sensores, transmisión LoRa, control del servo y estado del sistema.
+        </p>
 
-  <div class="card">
-    <p>
-      Se implementó un sistema de regulación basado en convertidores DC-DC (LM2596),
-      mejorando la eficiencia energética y reduciendo problemas térmicos en condiciones de carga.
-    </p>
-  </div>
-</section>
+        <div class="grid cards-2 spaced-top">
+          <article class="card">
+            <h3>TaskSensors</h3>
+            <p>Lee BME680, MPU6050 y GPS; calcula variables derivadas; construye la estructura de telemetría.</p>
+          </article>
+          <article class="card">
+            <h3>TaskLoRa</h3>
+            <p>Empaqueta la telemetría y administra la transmisión y recepción del enlace con la estación base.</p>
+          </article>
+          <article class="card">
+            <h3>TaskServo</h3>
+            <p>Gestiona el actuador de recuperación para el despliegue del paracaídas.</p>
+          </article>
+          <article class="card">
+            <h3>TaskLED</h3>
+            <p>Provee diagnóstico visual y estado de fallos en el sistema.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-<!-- DECISIONES CLAVE -->
-<section class="section">
-  <h2>Decisiones de diseño</h2>
+    <section class="section">
+      <h2>Lógica de vuelo y recuperación</h2>
+      <div class="card">
+        <p>
+          La lógica del sistema define estados de vuelo y usa umbrales calculados a partir de la dinámica del cohete.
+          El despliegue del paracaídas no depende de una sola lectura: se evalúan aceleración, velocidad vertical y altitud relativa
+          para evitar activaciones erróneas.
+        </p>
+        <p class="small-note">
+          <!-- AGREGAR AQUÍ: captura del código de la máquina de estados, diagrama o imagen de la lógica de despliegue -->
+        </p>
+      </div>
+    </section>
 
-  <div class="card">
-    <ul>
-      <li>Separación física de módulos para reducir interferencias</li>
-      <li>Uso de buses estándar (I2C, SPI, UART) para escalabilidad</li>
-      <li>Implementación de regulación conmutada para eficiencia energética</li>
-      <li>Arquitectura preparada para futuras expansiones del sistema</li>
-    </ul>
-  </div>
-</section>
+    <section class="section">
+      <h2>Dashboard de visualización</h2>
+      <div class="card">
+        <p>
+          Se desarrolló una interfaz en Python y una capa web con HTML, CSS y JavaScript para visualizar la telemetría recibida desde la estación base.
+          El sistema registra datos y permite seguir variables como altitud, temperatura, humedad, posición, RSSI y SNR.
+        </p>
 
-<!-- RESULTADO -->
-<section class="section">
-  <h2>Resultado</h2>
+        <div class="grid cards-2 spaced-top">
+          <article class="card">
+            <h3>Recepción</h3>
+            <p>Lectura serial de tramas, parseo de datos y actualización en tiempo real.</p>
+          </article>
+          <article class="card">
+            <h3>Registro</h3>
+            <p>Salida a CSV para conservar datos de vuelo y métricas del enlace.</p>
+          </article>
+        </div>
 
-  <div class="card">
-    <p>
-      El sistema final permite la adquisición confiable de datos, su almacenamiento local
-      y transmisión en tiempo real, proporcionando una plataforma estable para pruebas experimentales.
-    </p>
-  </div>
-</section>
+        <p class="small-note">
+          <!-- AGREGAR AQUÍ: captura del dashboard en ejecución -->
+        </p>
+      </div>
+    </section>
 
-<!-- MEDIA -->
-<section class="section">
-  <h2>Evidencia</h2>
+    <section class="section">
+      <h2>Simulación y validación</h2>
+      <div class="grid cards-2">
+        <article class="card">
+          <h3>OpenRocket</h3>
+          <p>
+            Se usó para modelar el cohete, verificar geometría, estabilidad y comportamiento general del vuelo.
+            Las curvas obtenidas ayudaron a definir el perfil de ascenso y descenso.
+          </p>
+          <p class="small-note">
+            <!-- AGREGAR AQUÍ: gráfica o captura de OpenRocket -->
+          </p>
+        </article>
+        <article class="card">
+          <h3>MATLAB</h3>
+          <p>
+            Se utilizó para validar y comparar la respuesta de vuelo mediante simulación matemática,
+            cruzando resultados con OpenRocket para definir umbrales y criterios de despliegue.
+          </p>
+          <p class="small-note">
+            <!-- AGREGAR AQUÍ: gráfica o captura de MATLAB -->
+          </p>
+        </article>
+      </div>
+    </section>
 
-  <div class="grid-3">
-    <div class="card">📷 Placa A (sensores)</div>
-    <div class="card">📷 Placa B (control)</div>
-    <div class="card">📷 Esquemáticos KiCad</div>
-  </div>
-</section>
+    <section class="section">
+      <h2>Resultados</h2>
+      <div class="card">
+        <p>
+          El resultado final es una plataforma de telemetría funcional para cohetería experimental:
+          adquiere datos, los guarda localmente, los transmite por LoRa y los presenta en una interfaz de monitoreo.
+          Además, el diseño quedó listo para pruebas y expansión futura.
+        </p>
+      </div>
+    </section>
 
-</main>
+    <section class="section">
+      <h2>Evidencia visual</h2>
+      <div class="grid cards-3">
+        <article class="card">
+          <h3>Placa final</h3>
+          <p>Foto de la PCB ensamblada y montada.</p>
+        </article>
+        <article class="card">
+          <h3>Dashboard</h3>
+          <p>Captura de la interfaz de monitoreo en Python/web.</p>
+        </article>
+        <article class="card">
+          <h3>Simulaciones</h3>
+          <p>Imágenes de OpenRocket y MATLAB para soporte técnico.</p>
+        </article>
+      </div>
+    </section>
+  </main>
 
+  <footer class="site-footer">
+    <div class="container">
+      <p><a href="proyectos.html">Volver a proyectos</a></p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>
